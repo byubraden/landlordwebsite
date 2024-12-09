@@ -123,6 +123,26 @@
         .progress-bar-container {
             margin-top: 30px;
         }
+
+        /* Style for Add Review button */
+        .add-review-button {
+            display: block;
+            margin-top: 40px;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color: #1B9AAA;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .add-review-button:hover {
+            background-color: #158B8A;
+        }
     </style>
 </head>
 <body>
@@ -218,25 +238,27 @@
         <div class="rating-category">
             <div class="category-name">Communication</div>
             <div class="progress-bar">
-                <div class="progress" style="width: 85%;"></div>
-            </div>
-        </div>
-
-        <div class="rating-category">
-            <div class="category-name">Transparency and Honesty</div>
-            <div class="progress-bar">
-                <div class="progress" style="width: 95%;"></div>
-            </div>
-        </div>
-
-        <div class="rating-category">
-            <div class="category-name">Fairness and Flexibility</div>
-            <div class="progress-bar">
                 <div class="progress" style="width: 80%;"></div>
             </div>
         </div>
 
-        <div class="total-rating">Overall Rating: 4.5/5</div>
+        <div class="rating-category">
+            <div class="category-name">Transparency</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 70%;"></div>
+            </div>
+        </div>
+
+        <div class="rating-category">
+            <div class="category-name">Flexibility</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 85%;"></div>
+            </div>
+        </div>
+
+        <div class="total-rating">Overall Rating: 4.2/5</div>
+
+        <a href="#" class="add-review-button">Add Review</a>
     </div>
 </body>
 </html>
