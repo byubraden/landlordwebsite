@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Volunteer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #2e9a8f;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .required {
+            color: red;
+        }
+        input, select, button {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            color: white;
+            border: none;
+            padding: 10px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            align-self: center;
+        }
+        .cancel-button {
+            background-color: gray;
+            margin-right: 10px;
+        }
+        .cancel-button:hover {
+            background-color: #555;
+        }
+        .save-button {
+            background-color: black;
+        }
+        .save-button:hover {
+            background-color: #333;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Volunteer</h1>
+        <form action="/editVolunteer/<%= volunteer.vol_id %>" method="POST">
+            <!-- Pre-filled fields -->
+            <label for="first-name">First Name <span class="required">*</span></label>
+            <input type="text" id="first-name" name="VOL_FIRST" value="<%= volunteer.vol_first %>" required>
+ 
+            <label for="last-name">Last Name <span class="required">*</span></label>
+            <input type="text" id="last-name" name="VOL_LAST" value="<%= volunteer.vol_last %>" required>
+ 
+            <label for="email">Email Address <span class="required">*</span></label>
+            <input type="email" id="email" name="VOL_EMAIL" value="<%= volunteer.vol_email %>" required>
+ 
+            <label for="phone">Phone Number <span class="required">*</span></label>
+            <input type="tel" id="phone" name="VOL_PHONE" value="<%= volunteer.vol_phone %>" maxlength="14" oninput="formatAndRestrictPhoneNumber(this)" required>
+            <script>
+                function formatAndRestrictPhoneNumber(input) {
+                    // Remove all non-numeric characters
+                    let value = input.value.replace(/\D/g, '');
+            
+                    // Restrict length to 10 digits
+                    if (value.length > 10) {
+                        value = value.slice(0, 10);
+                    }
+            
+                    // Apply the (123) 456-7890 format dynamically
+                    if (value.length > 3 && value.length <= 6) {
+                        input.value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+                    } else if (value.length > 6) {
+                        input.value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+                    } else if (value.length > 0) {
+                        input.value = `(${value.slice(0, 3)}`;
+                    } else {
+                        input.value = value;
+                    }
+                }
+            </script>
+            
+            <label>Preferred Contact Method <span class="required">*</span></label>
+            <select name="pref_contact" required>
+                <option value="EMAIL" <%= volunteer.pref_contact === 'EMAIL' ? 'selected' : '' %>>Email</option>
+                <option value="CALL" <%= volunteer.pref_contact === 'CALL' ? 'selected' : '' %>>Phone</option>
+                <option value="TEXT" <%= volunteer.pref_contact === 'TEXT' ? 'selected' : '' %>>Text</option>
+            </select>
+ 
+            <label for="hear-about">How did you hear about this opportunity? <span class="required">*</span></label>
+            <select id="hear-about" name="how_heard" required>
+                <option value="friend" <%= volunteer.how_heard.toLowerCase() === 'friend' ? 'selected' : '' %>>Friend</option>
+                <option value="social-media" <%= volunteer.how_heard.toLowerCase() === 'social-media' ? 'selected' : '' %>>Social Media</option>
+                <option value="website" <%= volunteer.how_heard.toLowerCase() === 'website' ? 'selected' : '' %>>Website</option>
+                <option value="event" <%= volunteer.how_heard.toLowerCase() === 'event' ? 'selected' : '' %>>Event</option>
+                <option value="podcast" <%= volunteer.how_heard.toLowerCase() === 'podcast' ? 'selected' : '' %>>Podcast</option>
+                <option value="other" <%= volunteer.how_heard.toLowerCase() === 'other' ? 'selected' : '' %>>Other</option>
+            </select>
+ 
+            <label for="city">City <span class="required">*</span></label>
+            <input type="text" id="city" name="vol_city" value="<%= volunteer.vol_city %>" required>
+ 
+            <label for="state">State <span class="required">*</span></label>
+            <select id="state" name="vol_state" required>
+                <option value="AL" <%= volunteer.vol_state === 'AL' ? 'selected' : '' %>>Alabama</option>
+                <option value="AK" <%= volunteer.vol_state === 'AK' ? 'selected' : '' %>>Alaska</option>
+                <option value="AZ" <%= volunteer.vol_state === 'AZ' ? 'selected' : '' %>>Arizona</option>
+                <option value="AR" <%= volunteer.vol_state === 'AR' ? 'selected' : '' %>>Arkansas</option>
+                <option value="CA" <%= volunteer.vol_state === 'CA' ? 'selected' : '' %>>California</option>
+                <option value="CO" <%= volunteer.vol_state === 'CO' ? 'selected' : '' %>>Colorado</option>
+                <option value="CT" <%= volunteer.vol_state === 'CT' ? 'selected' : '' %>>Connecticut</option>
+                <option value="DE" <%= volunteer.vol_state === 'DE' ? 'selected' : '' %>>Delaware</option>
+                <option value="FL" <%= volunteer.vol_state === 'FL' ? 'selected' : '' %>>Florida</option>
+                <option value="GA" <%= volunteer.vol_state === 'GA' ? 'selected' : '' %>>Georgia</option>
+                <option value="HI" <%= volunteer.vol_state === 'HI' ? 'selected' : '' %>>Hawaii</option>
+                <option value="ID" <%= volunteer.vol_state === 'ID' ? 'selected' : '' %>>Idaho</option>
+                <option value="IL" <%= volunteer.vol_state === 'IL' ? 'selected' : '' %>>Illinois</option>
+                <option value="IN" <%= volunteer.vol_state === 'IN' ? 'selected' : '' %>>Indiana</option>
+                <option value="IA" <%= volunteer.vol_state === 'IA' ? 'selected' : '' %>>Iowa</option>
+                <option value="KS" <%= volunteer.vol_state === 'KS' ? 'selected' : '' %>>Kansas</option>
+                <option value="KY" <%= volunteer.vol_state === 'KY' ? 'selected' : '' %>>Kentucky</option>
+                <option value="LA" <%= volunteer.vol_state === 'LA' ? 'selected' : '' %>>Louisiana</option>
+                <option value="ME" <%= volunteer.vol_state === 'ME' ? 'selected' : '' %>>Maine</option>
+                <option value="MD" <%= volunteer.vol_state === 'MD' ? 'selected' : '' %>>Maryland</option>
+                <option value="MA" <%= volunteer.vol_state === 'MA' ? 'selected' : '' %>>Massachusetts</option>
+                <option value="MI" <%= volunteer.vol_state === 'MI' ? 'selected' : '' %>>Michigan</option>
+                <option value="MN" <%= volunteer.vol_state === 'MN' ? 'selected' : '' %>>Minnesota</option>
+                <option value="MS" <%= volunteer.vol_state === 'MS' ? 'selected' : '' %>>Mississippi</option>
+                <option value="MO" <%= volunteer.vol_state === 'MO' ? 'selected' : '' %>>Missouri</option>
+                <option value="MT" <%= volunteer.vol_state === 'MT' ? 'selected' : '' %>>Montana</option>
+                <option value="NE" <%= volunteer.vol_state === 'NE' ? 'selected' : '' %>>Nebraska</option>
+                <option value="NV" <%= volunteer.vol_state === 'NV' ? 'selected' : '' %>>Nevada</option>
+                <option value="NH" <%= volunteer.vol_state === 'NH' ? 'selected' : '' %>>New Hampshire</option>
+                <option value="NJ" <%= volunteer.vol_state === 'NJ' ? 'selected' : '' %>>New Jersey</option>
+                <option value="NM" <%= volunteer.vol_state === 'NM' ? 'selected' : '' %>>New Mexico</option>
+                <option value="NY" <%= volunteer.vol_state === 'NY' ? 'selected' : '' %>>New York</option>
+                <option value="NC" <%= volunteer.vol_state === 'NC' ? 'selected' : '' %>>North Carolina</option>
+                <option value="ND" <%= volunteer.vol_state === 'ND' ? 'selected' : '' %>>North Dakota</option>
+                <option value="OH" <%= volunteer.vol_state === 'OH' ? 'selected' : '' %>>Ohio</option>
+                <option value="OK" <%= volunteer.vol_state === 'OK' ? 'selected' : '' %>>Oklahoma</option>
+                <option value="OR" <%= volunteer.vol_state === 'OR' ? 'selected' : '' %>>Oregon</option>
+                <option value="PA" <%= volunteer.vol_state === 'PA' ? 'selected' : '' %>>Pennsylvania</option>
+                <option value="RI" <%= volunteer.vol_state === 'RI' ? 'selected' : '' %>>Rhode Island</option>
+                <option value="SC" <%= volunteer.vol_state === 'SC' ? 'selected' : '' %>>South Carolina</option>
+                <option value="SD" <%= volunteer.vol_state === 'SD' ? 'selected' : '' %>>South Dakota</option>
+                <option value="TN" <%= volunteer.vol_state === 'TN' ? 'selected' : '' %>>Tennessee</option>
+                <option value="TX" <%= volunteer.vol_state === 'TX' ? 'selected' : '' %>>Texas</option>
+                <option value="UT" <%= volunteer.vol_state === 'UT' ? 'selected' : '' %>>Utah</option>
+                <option value="VT" <%= volunteer.vol_state === 'VT' ? 'selected' : '' %>>Vermont</option>
+                <option value="VA" <%= volunteer.vol_state === 'VA' ? 'selected' : '' %>>Virginia</option>
+                <option value="WA" <%= volunteer.vol_state === 'WA' ? 'selected' : '' %>>Washington</option>
+                <option value="WV" <%= volunteer.vol_state === 'WV' ? 'selected' : '' %>>West Virginia</option>
+                <option value="WI" <%= volunteer.vol_state === 'WI' ? 'selected' : '' %>>Wisconsin</option>
+                <option value="WY" <%= volunteer.vol_state === 'WY' ? 'selected' : '' %>>Wyoming</option>
+ 
+            </select>
+ 
+            <label for="sewing-level">Sewing Skill Level <span class="required">*</span></label>
+            <ul>
+                <li><strong>No Sewing</strong>: Can cut, pin, and mark vest components</li>
+                <li><strong>Beginner</strong>: Just learning to use a sewing machine</li>
+                <li><strong>Basic</strong>: Can sew a straight stitch</li>
+                <li><strong>Advanced</strong>: Can handle challenging sewing tasks</li>
+            </ul>
+            <select id="sewing-level" name="sewing_level" required>
+                <option value="No Sewing" <%= volunteer.sewing_level === 'No Sewing' ? 'selected' : '' %>>No Sewing</option>
+                <option value="Beginner" <%= volunteer.sewing_level === 'Beginner' ? 'selected' : '' %>>Beginner</option>
+                <option value="Basic" <%= volunteer.sewing_level === 'Basic' ? 'selected' : '' %>>Basic</option>
+                <option value="Advanced" <%= volunteer.sewing_level === 'Advanced' ? 'selected' : '' %>>Advanced</option>
+            </select>
+ 
+            <label for="volunteer-hours">Hours Willing to Volunteer Per Month <span class="required">*</span></label>
+            <input type="number" id="volunteer-hours" name="hours_month" value="<%= volunteer.hours_month %>" min="1" max="744" required>
+ 
+            <div class="button-container">
+                <button type="button" class="cancel-button" onclick="window.history.back()">Cancel</button>
+                <button type="submit" class="save-button">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

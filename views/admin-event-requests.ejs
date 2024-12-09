@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turtle Shelter Project - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap if needed */
+            justify-content: space-between;
+            align-items: center; /* Ensure vertical alignment */
+            background-color: #333333;
+            padding: 1rem 2rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Logo and Title Container */
+        nav .header {
+            display: flex; /* Arrange logo and title in a row */
+            align-items: center; /* Center logo and text vertically */
+            gap: 1rem; /* Add spacing between the title and the logo */
+        }
+
+        /* Title */
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000000;
+            color: #35b4a8;
+            white-space: nowrap; /* Prevent breaking into multiple lines */
+        }
+
+        /* Navigation Links */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap; /* Allow links to wrap */
+            justify-content: center; /* Center-align links */
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Individual Navigation Items */
+        nav ul li {
+            display: inline;
+        }
+
+        /* Links */
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        /* Hover Effects */
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Button Styling */
+        .nav-button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Media Query for Small Screens */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column; /* Stack logo and links */
+                text-align: center; /* Center-align content */
+            }
+
+            nav .header {
+                justify-content: center; /* Center the header content */
+            }
+
+            nav ul {
+                flex-direction: column; /* Stack navigation links */
+                gap: 0.5rem; /* Reduce gap between links */
+            }
+
+            nav ul li a {
+                padding: 0.5rem 1rem; /* Adjust padding for smaller screens */
+            }
+        }
+
+
+        * {
+            box-sizing: border-box
+        }
+
+        /* Sidebar */
+
+        .container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333333;
+            color: white;
+            padding: 1rem;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 1rem 0;
+        }
+
+        .sidebar ul li button {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            color: white;
+            text-align: left;
+            font-size: 1rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: #f5f5f5;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            color: #003366;
+        }
+
+        .placeholder {
+            text-align: center;
+            margin-top: 2rem;
+            font-style: italic;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ccc;
+            padding: 0.8rem;
+            text-align: left;
+            word-wrap: break-word;
+        }
+
+        table th {
+            background-color: #003366;
+            color: white;
+        }
+
+        /* Status Colors */
+        .status-pending {
+            font-weight: bold;
+            color: gray;
+        }
+
+        .status-approved {
+            font-weight: bold;
+            color: green;
+        }
+
+        .status-denied {
+            font-weight: bold;
+            color: rgb(198, 0, 0);
+        }
+
+        .status-completed {
+            font-weight: bold;
+            color: blue;
+        }
+
+        /* Button Styling */
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        .approve-button {
+            background-color: green;
+        }
+
+        .approve-button:hover {
+            background-color: rgb(1, 84, 1);
+        }
+
+        .deny-button {
+            background-color: rgb(198, 0, 0);
+        }
+
+        .deny-button:hover {
+            background-color: rgb(110, 2, 2);
+        }
+
+        .delete-button {
+            background-color: rgb(0, 0, 0);
+        }
+
+        .delete-button:hover {
+            background-color: rgb(85, 85, 85);
+        }
+
+        .add-event-request-button {
+            background-color: #003366;
+            /* Matches the blue color used in the table header */
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            text-align: center;
+        }
+
+        .add-event-request-button:hover {
+            background-color: #002244;
+            /* Slightly darker blue for hover effect */
+        }
+
+        /* modal styling XXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            /* Ensure it's above other elements */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Transparent black background */
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            /* Center it vertically */
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            /* Adjust width as needed */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .required {
+            color: red;
+            font-weight: bold;
+        }
+
+        .close-button {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Form group for labels and inputs */
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 20px;
+            width: 30%;
+            /* Adjust width for label alignment */
+            text-align: right;
+        }
+
+        input {
+            width: 65%;
+            /* Adjust width for inputs */
+            padding: 8px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* Button styling */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .submit-button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: darkgreen;
+        }
+
+        .cancel-button {
+            background-color: gray;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .cancel-button:hover {
+            background-color: darkgray;
+        }
+
+        /*END MODAL STYLES*/
+
+        /*DENY MODAL STYLES*/
+
+        .deny-modal .modal-content {
+            background-color: #fff;
+            border: 2px solid rgb(198, 0, 0);
+            padding: 20px;
+            text-align: center;
+            width: 40%;
+            margin: 15% auto;
+        }
+
+        .deny-modal .deny-buttons {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 20px;
+        }
+
+        .deny-modal .confirm-deny {
+            background-color: rgb(198, 0, 0);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .deny-modal .confirm-deny:hover {
+            background-color: rgb(110, 2, 2);
+        }
+
+        .deny-modal .cancel-deny {
+            background-color: gray;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .deny-modal .cancel-deny:hover {
+            background-color: darkgray;
+        }
+
+        /*END DENY MODAL STYLES*/
+
+        /* Logout Modal Styling */
+        .logout-modal {
+            position: fixed;
+            /* Sticks modal to viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* Full width of screen */
+            height: 100%;
+            /* Full height of screen */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent background */
+            display: flex;
+            /* Flexbox for alignment */
+            align-items: center;
+            /* Vertically center */
+            justify-content: center;
+            /* Horizontally center */
+            z-index: 1000;
+            /* Make sure modal is on top */
+        }
+
+        .logout-modal-content {
+            background-color: #fff;
+            /* White modal background */
+            padding: 30px;
+            /* Add spacing */
+            border-radius: 10px;
+            /* Rounded corners */
+            text-align: center;
+            /* Center text */
+            width: 400px;
+            /* Fixed width */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            /* Shadow for depth */
+            position: relative;
+            /* Allows for the close button positioning */
+            animation: fadeIn 0.3s ease-in-out;
+            /* Optional fade-in animation */
+        }
+
+        .logout-modal-content h2 {
+            color: #003366;
+            /* Blue tone matching the site design */
+            font-weight: bold;
+        }
+
+        .logout-close-button {
+            position: absolute;
+            /* Place close button inside modal */
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .logout-close-button:hover {
+            color: red;
+        }
+
+        .logout-modal button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .logout-yes-button {
+            background-color: #c0392b;
+            /* Subdued red */
+            color: white;
+        }
+
+        .logout-yes-button:hover {
+            background-color: #a93226;
+            /* Slightly darker red */
+        }
+
+        .logout-cancel-button {
+            background-color: #6c757d;
+            /* Gray */
+            color: white;
+        }
+
+        .logout-cancel-button:hover {
+            background-color: #5a6268;
+            /* Darker gray */
+        }
+
+        /* Optional fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 50%;
+            text-align: center;
+        }
+
+        .deny-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .confirm-deny {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .cancel-deny {
+            background-color: gray;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        /* Footer Styles */
+
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 1rem;
+            background-color: #333333;
+            color: white;
+        }
+
+        .main-footer {
+            font-size: 1.1rem; /* Adjust font size as needed */
+            background-color: #222222; /* Slightly darker background */
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        <header class="header">
+            <div class="logo">Turtle Shelter Project</div>
+            <img src="/IMG/logo-circle.png" alt="Logo" width="70">
+        </header>
+        <ul>
+            <li>
+                <form action="/" method="GET">
+                    <button type="submit" class="nav-button">Home</button>
+                </form>
+            </li>
+            <li>
+                <form action="/about" method="GET">
+                    <button type="submit" class="nav-button">About Us</button>
+                </form>
+            </li>
+            <li>
+                <form action="/volunteer-signup" method="GET">
+                    <button type="submit" class="nav-button">Sign-Up to Volunteer</button>
+                </form>
+            </li>
+            <li>
+                <form action="/request-event" method="GET">
+                    <button type="submit" class="nav-button">Request an Event</button>
+                </form>
+            </li>
+            <% if (user) { %>
+                <li>
+                    <form action="/adminhomepage" method="GET">
+                        <button type="submit" class="nav-button">Admin</button>
+                    </form>
+                </li>
+                <li>
+                    <button onclick="openLogoutModal()" class="nav-button">Logout</button>
+                </li>
+                <% } else { %>
+                    <li>
+                        <form action="/loginpage" method="GET">
+                            <button type="submit" class="nav-button">Login</button>
+                        </form>
+                    </li>
+                    <% } %>
+        </ul>
+    </nav>
+    
+
+
+
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <form action="/adminhomepage" method="GET">
+                        <button type="submit">Admin Portal</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/adminAnalytics" method="GET">
+                        <button type="submit">Event Analytics</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-volunteers" method="GET">
+                        <button type="submit">Volunteers</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-event-requests" method="GET">
+                        <button type="submit">Event Requests</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-upcoming-events" method="GET">
+                        <button type="submit">Upcoming Events</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-past-events" method="GET">
+                        <button type="submit">Past Events</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-users" method="GET">
+                        <button type="submit">Users</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div id="event-requests" class="tab-content active">
+                <h2>Event Requests</h2>
+                <button class="add-event-request-button" onclick="location.href='/request-event'">+ Add An Event
+                    Request</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Organization</th>
+                            <th>Preferred Dates</th>
+                            <th>Preferred Time</th>
+                            <th>Preferred Duration</th>
+                            <th>Contact Name Information</th>
+                            <th>Event Location</th>
+                            <th>Type</th>
+                            <th>Group Size</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% eventRequests.forEach(request=> { %>
+                            <tr>
+                                <td>
+                                    <%= request.organization %>
+                                </td>
+                                <td>
+                                    <% if (request.preferred_date_1) { %>
+                                        <div>
+                                            <%= new Date(request.preferred_date_1).toLocaleDateString() %>
+                                        </div>
+                                        <% } %>
+                                            <% if (request.preferred_date_2) { %>
+                                                <div>
+                                                    <%= new Date(request.preferred_date_2).toLocaleDateString() %>
+                                                </div>
+                                                <% } %>
+                                                    <% if (request.preferred_date_3) { %>
+                                                        <div>
+                                                            <%= new Date(request.preferred_date_3).toLocaleDateString()
+                                                                %>
+                                                        </div>
+                                                        <% } %>
+                                </td>
+                                <td>
+                                    <%= new Date(`1970-01-01T${request.desired_time}`).toLocaleTimeString('en-US', {
+                                        hour: 'numeric' , minute: '2-digit' , hour12: true }) %>
+                                </td>
+                                <td>
+                                    <%= request.desired_duration %> hours
+                                </td>
+                                <td>
+                                    <div><strong>
+                                            <%= request.contact_first_name %>
+                                                <%= request.contact_last_name %>
+                                        </strong></div>
+                                    <div>Phone: <%= request.contact_phone %>
+                                    </div>
+                                    <div>Email: <%= request.contact_email %>
+                                    </div>
+                                </td>
+                                <td>
+                                    <%= request.address1 %>,
+                                        <% if (request.address2) { %>
+                                            <%= request.address2 %>
+                                                <% } %>
+                                                    <%= request.city %>, <%= request.state %>
+                                                            <%= request.zip %>
+                                </td>
+                                <td>
+                                    <%= request.event_type %>
+                                </td>
+                                <td>
+                                    <%= request.est_people %>
+                                </td>
+                                <td>
+                                    <span class="
+                                        <% if (request.status === 'Pending') { %>status-pending<% } %>
+                                        <% if (request.status === 'Approved') { %>status-approved<% } %>
+                                        <% if (request.status === 'Denied') { %>status-denied<% } %>
+                                        <% if (request.status === 'Completed') { %>status-completed<% } %>">
+                                        • <%= request.status %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <% if (request.status==='Pending' ) { %>
+                                        <button class="action-button approve-button"
+                                            onclick="openModal('<%= request.event_id %>')">✓ Approve</button>
+                                        <button class="action-button deny-button"
+                                            onclick="openDenyModal('<%= request.event_id %>')">✗ Deny</button>
+                                        <% } %>
+                                            <button class="action-button delete-button"
+                                                onclick="openDeleteModal('<%= request.event_id %>')">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <% if (eventRequests && eventRequests.length> 0) { %>
+            <% eventRequests.forEach(request=> { %>
+                <div id="approveModal-<%= request.event_id %>" class="modal">
+                    <div class="modal-content">
+                        <span class="close-button" onclick="closeModal('<%= request.event_id %>')">&times;</span>
+                        <h2>Approve Event Request</h2>
+                        <form action="/approveEvent/<%= request.event_id %>" method="POST">
+                            <input type="hidden" id="event-id" name="eventId" value="<%= request.event_id %>">
+
+                            <div class="form-group">
+                                <label for="planned-date-<%= request.event_id %>">Planned Date: <span
+                                        class="required">*</span></label>
+                                <input type="date" id="planned-date-<%= request.event_id %>" name="plannedDate"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="planned-time-<%= request.event_id %>">Planned Time: <span
+                                        class="required">*</span></label>
+                                <input type="time" id="planned-time-<%= request.event_id %>" name="plannedTime"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="planned-duration-<%= request.event_id %>">Planned Duration (in hours): <span
+                                        class="required">*</span></label>
+                                <input type="number" id="planned-duration-<%= request.event_id %>"
+                                    name="plannedDuration" min="1" step="0.5" required>
+                            </div>
+
+                            <div class="button-container">
+                                <button type="button" class="cancel-button"
+                                    onclick="closeModal('<%= request.event_id %>')">Cancel</button>
+                                <button type="submit" class="submit-button">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <p>No event requests found.</p>
+                        <% } %>
+    </div>
+
+    <div id="denyModal" class="modal deny-modal">
+        <div class="modal-content">
+            <h3>Are you sure you want to deny this event request?</h3>
+            <br>
+            <h4>(This action is permanent)</h4>
+            <div class="deny-buttons">
+                <button class="confirm-deny" id="confirmDenyButton">Deny</button>
+                <button class="cancel-deny" onclick="closeDenyModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal deny-modal">
+        <div class="modal-content">
+            <h3>Are you sure you want to delete this event request?</h3>
+            <br>
+            <h4>(This action is permanent)</h4>
+            <div class="deny-buttons">
+                <!-- Confirm Delete Button -->
+                <button class="confirm-deny" id="confirmDeleteButton" onclick="deleteEvent()">Delete</button>
+                <!-- Cancel Button -->
+                <button class="cancel-deny" onclick="closeDeleteModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(eventId) {
+            document.getElementById(`approveModal-${eventId}`).style.display = 'block';
+        }
+
+        function closeModal(eventId) {
+            document.getElementById(`approveModal-${eventId}`).style.display = 'none';
+        }
+
+        let eventIdToDeny = null;
+
+        function openDenyModal(eventId) {
+            eventIdToDeny = eventId;
+            document.getElementById('denyModal').style.display = 'block';
+        }
+
+        function closeDenyModal() {
+            eventIdToDeny = null;
+            document.getElementById('denyModal').style.display = 'none';
+        }
+
+        document.getElementById('confirmDenyButton').addEventListener('click', function () {
+            if (eventIdToDeny) {
+                fetch(`/denyEvent/${eventIdToDeny}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            closeDenyModal();
+                            window.location.hash = 'event-requests'; // Redirect to Event Requests tab
+                            window.location.reload(); // Reload to reflect changes
+                        } else {
+                            alert('Failed to deny event. Please try again.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
+    <!-- LogoutModal -->
+    <!-- Modal Structure -->
+    <div id="logoutModal" class="logout-modal" style="display: none;">
+        <div class="logout-modal-content">
+            <span class="logout-close-button" onclick="closeLogoutModal()">&times;</span>
+            <h2>Are you sure you want to logout?</h2>
+            <form action="/logout" method="POST">
+                <button type="submit" class="logout-yes-button">Yes, Logout</button>
+                <button type="button" class="logout-cancel-button" onclick="closeLogoutModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+    <!-- FOOTER -->
+    
+    <footer class="main-footer">
+        © 2024 Turtle Shelter Project, PO Box 382, Kaysville, UT 84037, 801-872-3190, turtleshelterproject@gmail.com
+    </footer>
+    <!-- FOOTER -->
+
+
+    <script>
+        function openLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                modal.style.display = 'flex'; // Ensure flex to align content
+            } else {
+                console.error("Modal element not found.");
+            }
+        }
+
+        function closeLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                modal.style.display = 'none'; // Hide modal
+            } else {
+                console.error("Modal element not found.");
+            }
+        }
+    </script>
+
+    <script>
+        // Open the delete modal
+        function openDeleteModal(eventId) {
+            const modal = document.getElementById("deleteModal");
+            modal.style.display = "block";
+
+            // Pass the event ID to the confirm button for deletion
+            const confirmButton = document.getElementById("confirmDeleteButton");
+            confirmButton.setAttribute("data-event-id", eventId);
+        }
+
+        // Close the delete modal
+        function closeDeleteModal() {
+            const modal = document.getElementById("deleteModal");
+            modal.style.display = "none";
+        }
+
+        // Handle the delete action
+        function deleteEvent() {
+            const confirmButton = document.getElementById("confirmDeleteButton");
+            const eventId = confirmButton.getAttribute("data-event-id");
+
+            // Send an AJAX request to delete the event
+            fetch(`/deleteEvent/${eventId}`, { method: "DELETE" })
+                .then(response => {
+                    if (response.ok) {
+                        closeDeleteModal();
+
+                        // Optionally, refresh the page or update the UI
+                        location.reload();
+                    } else {
+                        alert("Failed to delete the event.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error deleting event:", error);
+                    alert("An error occurred. Please try again.");
+                });
+        }
+
+    </script>
+
+
+
+
+</body>
+
+</html>

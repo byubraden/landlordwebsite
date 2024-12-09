@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turtle Shelter Project - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+       /* Navigation Bar */
+        nav {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap if needed */
+            justify-content: space-between;
+            align-items: center; /* Ensure vertical alignment */
+            background-color: #333333;
+            padding: 1rem 2rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Logo and Title Container */
+        nav .header {
+            display: flex; /* Arrange logo and title in a row */
+            align-items: center; /* Center logo and text vertically */
+            gap: 1rem; /* Add spacing between the title and the logo */
+        }
+
+        /* Title */
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000000;
+            color: #35b4a8;
+            white-space: nowrap; /* Prevent breaking into multiple lines */
+        }
+
+        /* Navigation Links */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap; /* Allow links to wrap */
+            justify-content: center; /* Center-align links */
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Individual Navigation Items */
+        nav ul li {
+            display: inline;
+        }
+
+        /* Links */
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        /* Hover Effects */
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Button Styling */
+        .nav-button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Media Query for Small Screens */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column; /* Stack logo and links */
+                text-align: center; /* Center-align content */
+            }
+
+            nav .header {
+                justify-content: center; /* Center the header content */
+            }
+
+            nav ul {
+                flex-direction: column; /* Stack navigation links */
+                gap: 0.5rem; /* Reduce gap between links */
+            }
+
+            nav ul li a {
+                padding: 0.5rem 1rem; /* Adjust padding for smaller screens */
+            }
+        }
+
+
+
+        * {
+            box-sizing: border-box
+        }
+
+        /* Sidebar */
+
+        .container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333333;
+            color: white;
+            padding: 1rem;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 1rem 0;
+        }
+
+        .sidebar ul li button {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            color: white;
+            text-align: left;
+            font-size: 1rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar ul li button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: #f5f5f5;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            color: #003366;
+        }
+
+        .placeholder {
+            text-align: center;
+            margin-top: 2rem;
+            font-style: italic;
+            color: #555;
+        }
+        /* Logout Modal Styling */
+        .logout-modal {
+            position: fixed; /* Sticks modal to viewport */
+            top: 0;
+            left: 0;
+            width: 100%; /* Full width of screen */
+            height: 100%; /* Full height of screen */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            display: flex; /* Flexbox for alignment */
+            align-items: center; /* Vertically center */
+            justify-content: center; /* Horizontally center */
+            z-index: 1000; /* Make sure modal is on top */
+        }
+
+        .logout-modal-content {
+            background-color: #fff; /* White modal background */
+            padding: 30px; /* Add spacing */
+            border-radius: 10px; /* Rounded corners */
+            text-align: center; /* Center text */
+            width: 400px; /* Fixed width */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+            position: relative; /* Allows for the close button positioning */
+            animation: fadeIn 0.3s ease-in-out; /* Optional fade-in animation */
+        }
+
+        .logout-modal-content h2 {
+            color: #003366; /* Blue tone matching the site design */
+            font-weight: bold;
+        }
+
+        .logout-close-button {
+            position: absolute; /* Place close button inside modal */
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .logout-close-button:hover {
+            color: red;
+        }
+
+        .logout-modal button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .logout-yes-button {
+            background-color: #c0392b; /* Subdued red */
+            color: white;
+        }
+
+        .logout-yes-button:hover {
+            background-color: #a93226; /* Slightly darker red */
+        }
+
+        .logout-cancel-button {
+            background-color: #6c757d; /* Gray */
+            color: white;
+        }
+
+        .logout-cancel-button:hover {
+            background-color: #5a6268; /* Darker gray */
+        }
+
+        /* Optional fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        
+        /* Footer Styles */
+
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 1rem;
+            background-color: #333333;
+            color: white;
+        }
+
+        .main-footer {
+            font-size: 1.1rem; /* Adjust font size as needed */
+            background-color: #222222; /* Slightly darker background */
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        <header class="header">
+            <div class="logo">Turtle Shelter Project</div>
+            <img src="/IMG/logo-circle.png" alt="Logo" width="70">
+        </header>
+        <ul>
+            <li>
+                <form action="/" method="GET">
+                    <button type="submit" class="nav-button">Home</button>
+                </form>
+            </li>
+            <li>
+                <form action="/about" method="GET">
+                    <button type="submit" class="nav-button">About Us</button>
+                </form>
+            </li>
+            <li>
+                <form action="/volunteer-signup" method="GET">
+                    <button type="submit" class="nav-button">Sign-Up to Volunteer</button>
+                </form>
+            </li>
+            <li>
+                <form action="/request-event" method="GET">
+                    <button type="submit" class="nav-button">Request an Event</button>
+                </form>
+            </li>
+            <% if (user) { %>
+                <li>
+                    <form action="/adminhomepage" method="GET">
+                        <button type="submit" class="nav-button">Admin</button>
+                    </form>
+                </li>
+                <li>
+                    <button onclick="openLogoutModal()" class="nav-button">Logout</button>
+                </li>
+                <% } else { %>
+                    <li>
+                        <form action="/loginpage" method="GET">
+                            <button type="submit" class="nav-button">Login</button>
+                        </form>
+                    </li>
+                    <% } %>
+        </ul>
+    </nav>
+    
+    
+    
+
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <form action="/adminhomepage" method="GET">
+                        <button type="submit">Admin Portal</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/adminAnalytics" method="GET">
+                        <button type="submit">Event Analytics</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-volunteers" method="GET">
+                        <button type="submit">Volunteers</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-event-requests" method="GET">
+                        <button type="submit">Event Requests</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-upcoming-events" method="GET">
+                        <button type="submit">Upcoming Events</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-past-events" method="GET">
+                        <button type="submit">Past Events</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/admin-users" method="GET">
+                        <button type="submit">Users</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+
+            <h2>Event Analytics</h2>
+            <br>
+
+            <div class='tableauPlaceholder' id='viz1733377018362' style='position: relative; width: 100%; height: 100vh;'>
+                <noscript>
+                    <a href='#'>
+                        <img alt='Dashboard 1'
+                            src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IN&#47;INTEX_tableau&#47;Dashboard1&#47;1_rss.png'
+                            style='border: none' />
+                    </a>
+                </noscript>
+                <object class='tableauViz' style='width: 100%; height: 100%;'>
+                    <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                    <param name='embed_code_version' value='3' />
+                    <param name='site_root' value='' />
+                    <param name='name' value='INTEX_tableau&#47;Dashboard1' />
+                    <param name='tabs' value='no' />
+                    <param name='toolbar' value='yes' />
+                    <param name='static_image'
+                        value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IN&#47;INTEX_tableau&#47;Dashboard1&#47;1.png' />
+                    <param name='animate_transition' value='yes' />
+                    <param name='display_static_image' value='yes' />
+                    <param name='display_spinner' value='yes' />
+                    <param name='display_overlay' value='yes' />
+                    <param name='display_count' value='yes' />
+                    <param name='language' value='en-US' />
+                    <param name='filter' value='publish=yes' />
+                </object>
+            </div>
+            <script>
+                var divElement = document.getElementById('viz1733377018362');
+                var vizElement = divElement.getElementsByTagName('object')[0];
+            
+                // Make width and height dynamic based on container
+                vizElement.style.width = '100%';
+                vizElement.style.height = '100%';
+            
+                var scriptElement = document.createElement('script');
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            </script>
+            
+        </div>
+    </div>
+   <!-- LogoutModal -->
+
+<!-- Modal Structure -->
+<div id="logoutModal" class="logout-modal" style="display: none;">
+    <div class="logout-modal-content">
+        <span class="logout-close-button" onclick="closeLogoutModal()">&times;</span>
+        <h2>Are you sure you want to logout?</h2>
+        <form action="/logout" method="POST">
+            <button type="submit" class="logout-yes-button">Yes, Logout</button>
+            <button type="button" class="logout-cancel-button" onclick="closeLogoutModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+ 
+<footer class="main-footer">
+    © 2024 Turtle Shelter Project, PO Box 382, Kaysville, UT 84037, 801-872-3190, turtleshelterproject@gmail.com
+</footer>
+<!-- FOOTER -->
+
+<script>
+function openLogoutModal() {
+    const modal = document.getElementById('logoutModal');
+    if (modal) {
+        modal.style.display = 'flex'; // Ensure flex to align content
+    } else {
+        console.error("Modal element not found.");
+    }
+}
+
+function closeLogoutModal() {
+    const modal = document.getElementById('logoutModal');
+    if (modal) {
+        modal.style.display = 'none'; // Hide modal
+    } else {
+        console.error("Modal element not found.");
+    }
+}
+</script>
+    
+</body>
+
+</html>

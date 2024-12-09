@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turtle Shelter Project </title>
+ 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+ 
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+ 
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            /* Aligns content to the right */
+            align-items: center;
+            /* Vertically centers content */
+            background-color: #333333;
+            padding: 0rem 2rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+ 
+        }
+ 
+        .header .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #35b4a8;
+            /* Logo text color */
+            margin-right: 1rem;
+            /* Space between title and logo */
+        }
+ 
+        .header img {
+            width: 70px;
+            /* Logo size */
+            height: auto;
+ 
+        }
+ 
+        body {
+            line-height: 1.6;
+            background-color: #1f1f1f;
+            color: #f5f5f5;
+        }
+ 
+        /* Navigation Bar */
+
+        nav {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap to the next line */
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333333;
+            padding: 1rem 2rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Logo */
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000000;
+            color: #35b4a8;
+            word-break: break-word; /* Allow title to break into multiple lines if necessary */
+            max-width: 100%; /* Prevent the logo from expanding too wide */
+            text-align: center; /* Center align the text if stacked */
+        }
+
+        /* Navigation Links */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap; /* Allow links to wrap to the next line */
+            justify-content: center; /* Center-align links when wrapped */
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Individual Navigation Items */
+        nav ul li {
+            display: inline;
+        }
+
+        /* Links */
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        /* Hover Effects */
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Button Styling */
+        .nav-button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Media Query for Small Screens */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column; /* Stack logo and links */
+                text-align: center; /* Center-align content */
+            }
+
+            nav ul {
+                flex-direction: column; /* Stack navigation links */
+                gap: 0.5rem; /* Reduce gap between links */
+            }
+
+            nav ul li a {
+                padding: 0.5rem 1rem; /* Adjust padding for smaller screens */
+            }
+        }
+
+    /*end of navbar css*/
+
+ 
+ 
+        .actionbuttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+ 
+        .action-button {
+            text-decoration: none;
+            background-color: #35b4a8;
+            /* Custom color */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+ 
+        .action-button:hover {
+            background-color: #2d9c8f;
+            /* Darker shade on hover */
+        }
+ 
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 60%;
+            position: relative;
+            margin: auto;
+        }
+ 
+        /* Hide the images by default */
+        .mySlides {
+            display: none;
+        }
+ 
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+ 
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+ 
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+ 
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+ 
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+ 
+        /* The dots/bullets/indicators */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+ 
+        .active,
+        .dot:hover {
+            background-color: #717171;
+        }
+ 
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+ 
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+ 
+            to {
+                opacity: 1
+            }
+        }
+ 
+        .container {
+            background-image: url('house_image.jpg');
+            /* Replace with your actual image path */
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            /* Adjust height as needed */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+ 
+        /* Stats Section */
+        .stats-section {
+            /* width: 80%; */
+            margin: 2rem auto;
+            /* Center section */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+            /* border-radius: 8px; */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+ 
+        .stats-heading {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #35b4a8;
+        }
+ 
+        .stat-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+ 
+        .stat-item {
+            text-align: center;
+            width: 30%;
+        }
+ 
+        .stat-text {
+            font-size: 4rem;
+            color: #f5f5f5;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+ 
+        .stat-item p {
+            font-size: 1.6rem;
+            color: #dcdcdc;
+        }
+ 
+        /* Logout Modal Styling */
+        .logout-modal {
+            position: fixed;
+            /* Sticks modal to viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* Full width of screen */
+            height: 100%;
+            /* Full height of screen */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent background */
+            display: flex;
+            /* Flexbox for alignment */
+            align-items: center;
+            /* Vertically center */
+            justify-content: center;
+            /* Horizontally center */
+            z-index: 1000;
+            /* Make sure modal is on top */
+        }
+ 
+        .logout-modal-content {
+            background-color: #fff;
+            /* White modal background */
+            padding: 30px;
+            /* Add spacing */
+            border-radius: 10px;
+            /* Rounded corners */
+            text-align: center;
+            /* Center text */
+            width: 400px;
+            /* Fixed width */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            /* Shadow for depth */
+            position: relative;
+            /* Allows for the close button positioning */
+            animation: fadeIn 0.3s ease-in-out;
+            /* Optional fade-in animation */
+        }
+ 
+        .logout-modal-content h2 {
+            color: #003366;
+            /* Blue tone matching the site design */
+            font-weight: bold;
+        }
+ 
+        .logout-close-button {
+            position: absolute;
+            /* Place close button inside modal */
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+ 
+        .logout-close-button:hover {
+            color: red;
+        }
+ 
+        .logout-modal button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+ 
+        .logout-yes-button {
+            background-color: #c0392b;
+            /* Subdued red */
+            color: white;
+        }
+ 
+        .logout-yes-button:hover {
+            background-color: #a93226;
+            /* Slightly darker red */
+        }
+ 
+        .logout-cancel-button {
+            background-color: #6c757d;
+            /* Gray */
+            color: white;
+        }
+ 
+        .logout-cancel-button:hover {
+            background-color: #5a6268;
+            /* Darker gray */
+        }
+ 
+        /* Optional fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+ 
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+ 
+        /* About Us Section */
+        .about-us {
+            padding: 4rem 2rem;
+            background-color: #333333;
+            text-align: center;
+        }
+ 
+        .about-us h2 {
+            font-size: 2.5rem;
+            color: #35b4a8;
+            margin-bottom: 1rem;
+        }
+ 
+        .about-us p {
+            font-size: 1.0rem;
+            color: #dcdcdc;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+ 
+        .about-us .mission {
+            background-color: #2d9c8f;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+ 
+        .about-us .mission h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+ 
+        .about-us .mission p {
+            font-size: 1.2rem;
+        }
+ 
+        .text-with-image {
+            overflow: hidden;
+            /* Clears the float */
+            
+        }
+ 
+        .text-with-image p {
+            text-align: left;
+        }
+ 
+        .jen-image {
+            float: left;
+            /* Makes the image float to the left */
+            margin-right: 20px;
+            /* Adds space between the image and the text */
+            margin-bottom: 10px;
+            /* Adds space below the image */
+            width: 500px;
+            /* Adjust image size if needed */
+            height: auto;
+            /* Keeps the aspect ratio intact */
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 1rem;
+            background-color: #333333;
+            color: white;
+        }
+
+        .social-footer {
+            margin-bottom: 0.5rem; /* Space between the two footers */
+        }
+
+        .social-footer .social-icon {
+            width: 40px; /* Size of the Facebook icon */
+            height: 40px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .social-footer .social-icon:hover {
+            transform: scale(1.1); /* Slight zoom effect on hover */
+        }
+
+        .main-footer {
+            font-size: 1.1rem; /* Slightly smaller text for the main footer */
+            background-color: #222222; /* Slightly darker background */
+        }
+
+    </style>
+</head>
+ 
+<body>
+    <nav>
+        <header class="header">
+            <div class="logo">Turtle Shelter Project</div>
+            <img src="/IMG/logo-circle.png" alt="Logo" width="70">
+        </header>
+        <ul>
+            <li>
+                <form action="/" method="GET">
+                    <button type="submit" class="nav-button">Home</button>
+                </form>
+            </li>
+            <li>
+                <form action="/about" method="GET">
+                    <button type="submit" class="nav-button">About Us</button>
+                </form>
+            </li>
+            <li>
+                <form action="/volunteer-signup" method="GET">
+                    <button type="submit" class="nav-button">Sign-Up to Volunteer</button>
+                </form>
+            </li>
+            <li>
+                <form action="/request-event" method="GET">
+                    <button type="submit" class="nav-button">Request an Event</button>
+                </form>
+            </li>
+            <% if (user) { %>
+                <li>
+                    <form action="/adminhomepage" method="GET">
+                        <button type="submit" class="nav-button">Admin</button>
+                    </form>
+                </li>
+                <li>
+                    <button onclick="openLogoutModal()" class="nav-button">Logout</button>
+                </li>
+                <% } else { %>
+                    <li>
+                        <form action="/loginpage" method="GET">
+                            <button type="submit" class="nav-button">Login</button>
+                        </form>
+                    </li>
+                    <% } %>
+        </ul>
+    </nav>    
+ 
+    <section class="about-us">
+ 
+        <h2>Jen's Story</h2>
+        <div class="text-with-image">
+            <img src="../IMG/Jen.png" alt="Jen's picture" class="jen-image">
+            <p>My addiction led me to being homeless on several occasions throughout my life, and during that time I
+                personally knew seven people who froze to death. When I first learned about this lifesaving technology,
+                my mind flooded with ideas on how many people's lives this could save. I'd recently been homeless during
+                an extreme winter. It had been one of the coldest winters Utah had suffered in a long time, so the
+                misery of surviving the bitter cold was still very fresh in my mind. <br><br>
+ 
+                While I was homeless I remember feeling the chill all the way to my bones. I couldn't even think or
+                function. It completely zapped me of my energy so much that I was losing my will to live. Everything
+                felt beyond overwhelming. Simple tasks, like finding a bathroom, seemed to feel like huge obstacles. The
+                crazy thing about it was: I had a car I was living in; I had a storage unit I could hang out in during
+                the day and at night; and I had an income that was sufficient for my needs. But being homeless
+                completely broke me - even with all of the resources I had available to me. <br><br>
+ 
+                I began thinking that if homelessness crushed me, even with all that I had, then what would it do to
+                someone who had much less, or even nothing? I wanted to do something to help people with this burden.
+                When I learned about foam clothing, I knew without a doubt that God was telling me -"THIS IS HOW YOU CAN
+                HELP!" <br><br>
+ 
+                After a lot of prayer and asking God to put the right people in my path, I started talking to everyone
+                about my desire to make foam clothing for the homeless. Eventually I told the right person and that is
+                how I met Marian Edmonds-Allen. At the time Marian, an ordained minister, was the executive director for
+                the Utah Pride Center. Prior to that she had served as the Executive Director of OUTreach Resource
+                Centers and in 2015 was named a Petra Fellow for her work with LGBTQ homeless youth. <br><br>
+ 
+                Marian was particularly interested in my idea for getting foam clothing into the hands of the homeless
+                and arranged a meeting to hear more. But it was still just an idea. The truth is I had no idea how to
+                make the project happen, and at the time I had only been clean and sober for 7 months. Things were put
+                on hold for a while because Marian took a new job at Parity in New York and resigned from the Pride
+                Center. I had been in drug rehab, but I needed to finish getting clean, sober, and stable. My recovery
+                sponsor kept telling me that this was God's project, not mine, and I needed to let go and let God make
+                this happen in HIS time. <br><br>
+ 
+                After about 2 years, in January 2017, God led me to Angela Roth. Angela is someone who not only knows
+                how to create a pattern but can sew like a rock star! Coincidentally, when I met her she had been
+                praying for an opportunity to use her sewing and patterning talents to do something truly meaningful for
+                people with a genuine need. We teamed up and started the Turtle Shelter Project! <br><br>
+ 
+                We decided to make vests because we thought a simple vest would be able to keep a person's core warm. If
+                your core is warm, the rest of you stays warm longer. We came up with a vest pattern that would be
+                fairly easy for volunteers to make and keep production cost down. After purchasing materials for 50
+                vests, we had only spent $30 for each one. The goal was to use labor donated by volunteers. This would
+                give people the opportunity to serve in any capacity, whether it be time or money, and to truly do
+                something meaningful that can help save lives. <br><br>
+ 
+                Between September 2017 and January of 2018, with the help of many volunteers, we produced 50 TSP vests.
+                We handed some out to people experiencing homelessness to do some field testing for us and let us know
+                how they worked. The response has been excellent! As a result of their feedback, we have made
+                improvements to the vests. We have added hoods, pockets, and a sturdy belt to help them fit better. We
+                have also used some of the vests to do field testing by ourselves and friends and family who were
+                willing. The results have been very encouraging!!! <br><br>
+ 
+                We want these vests to go to people living outdoors or who don't have access to shelters, because they
+                are the ones who need this technology the most. The vests are called "Turtle Shelters" because they are
+                a portable shelter - just like a turtle taking its shelter with it. Wearing a Turtle Shelter Vest makes
+                having a source of heat a nicety, but not a necessity because the foam insulation in the vest will
+                harness the body's heat and conserve it. The vests are very well made to provide durability, wind
+                resistance, insulation, and comfort. They are a very effective way to help provide life-saving warmth.
+            </p>
+        </div>
+ 
+        <div class="actionbuttons">
+            <form action="/volunteer-signup" method="GET">
+                <button type="submit" class="action-button">Sign-Up to Volunteer</button>
+            </form>
+            <form action="/donate" method="GET">
+                <button type="submit" class="action-button">Donate</button>
+            </form>
+        </div>
+    </section>
+ 
+ 
+ 
+    <!-- Modal Structure -->
+    <div id="logoutModal" class="logout-modal" style="display: none;">
+        <div class="logout-modal-content">
+            <span class="logout-close-button" onclick="closeLogoutModal()">&times;</span>
+            <h2>Are you sure you want to logout?</h2>
+            <form action="/logout" method="POST">
+                <button type="submit" class="logout-yes-button">Yes, Logout</button>
+                <button type="button" class="logout-cancel-button" onclick="closeLogoutModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+    </div>
+ 
+    <!-- FOOTERS -->
+    <footer class="social-footer">
+        <a href="https://www.facebook.com/turtleshelterproject/" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" class="social-icon">
+        </a>
+    </footer>
+
+    <footer class="main-footer">
+        © 2024 Turtle Shelter Project, PO Box 382, Kaysville, UT 84037, 801-872-3190, turtleshelterproject@gmail.com
+    </footer>
+    <!-- FOOTERS -->
+
+    <script>
+        function openLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                modal.style.display = 'flex'; // Ensure flex to align content
+            } else {
+                console.error("Modal element not found.");
+            }
+        }
+ 
+        function closeLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                modal.style.display = 'none'; // Hide modal
+            } else {
+                console.error("Modal element not found.");
+            }
+        }
+    </script>
+</body>
+ 
+</html>

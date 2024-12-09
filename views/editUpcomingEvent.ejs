@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Edit Upcoming Event</title>
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           line-height: 1.6;
+           margin: 0;
+           padding: 0;
+           background-color: #2e9a8f;
+       }
+       .container {
+           max-width: 600px;
+           margin: 50px auto;
+           background: #fff;
+           padding: 20px;
+           border-radius: 10px;
+           box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+       }
+       h1 {
+           text-align: center;
+           color: #333;
+       }
+       form {
+           display: flex;
+           flex-direction: column;
+       }
+       label {
+           margin-top: 10px;
+           font-weight: bold;
+       }
+       .required {
+           color: red;
+       }
+       input, select, button {
+           margin-top: 5px;
+           padding: 10px;
+           font-size: 16px;
+           border: 1px solid #ddd;
+           border-radius: 5px;
+       }
+       button {
+           color: white;
+           border: none;
+           padding: 10px 40px;
+           border-radius: 5px;
+           cursor: pointer;
+           align-self: center;
+       }
+       .cancel-button {
+           background-color: gray;
+           margin-right: 10px;
+       }
+       .cancel-button:hover {
+           background-color: #555;
+       }
+       .save-button {
+           background-color: black;
+       }
+       .save-button:hover {
+           background-color: #333;
+       }
+       .button-container {
+           display: flex;
+           justify-content: space-between;
+       }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <h1>Edit Upcoming Event</h1>
+       <script>
+           console.log('<%= JSON.stringify(event) %>');
+       </script>
+       <form action="/editUpcomingEvent/<%= event.event_id %>" method="POST">
+           <!-- Organization -->
+           <label for="organization">Organization <span class="required">*</span></label>
+           <input type="text" id="organization" name="organization" value="<%= event.organization %>" required>
+ 
+           <!-- Contact Info -->
+           <label for="contact-first-name">Contact First Name <span class="required">*</span></label>
+           <input type="text" id="contact-first-name" name="contactFirstName" value="<%= event.contact_first_name %>" required>
+ 
+           <label for="contact-last-name">Contact Last Name <span class="required">*</span></label>
+           <input type="text" id="contact-last-name" name="contactLastName" value="<%= event.contact_last_name %>" required>
+ 
+           <label for="contact-phone">Contact Phone <span class="required">*</span></label>
+           <input type="tel" id="contact-phone" name="contactPhone" value="<%= event.contact_phone %>" maxlength="14" required>
+ 
+           <label for="contact-email">Contact Email <span class="required">*</span></label>
+           <input type="email" id="contact-email" name="contactEmail" value="<%= event.contact_email %>" required>
+ 
+           <!-- Event Location -->
+           <label for="address1">Address Line 1 <span class="required">*</span></label>
+           <input type="text" id="address1" name="address1" value="<%= event.address1 %>" required>
+ 
+           <label for="address2">Address Line 2</label>
+           <input type="text" id="address2" name="address2" value="<%= event.address2 %>">
+ 
+           <label for="city">City <span class="required">*</span></label>
+           <input type="text" id="city" name="city" value="<%= event.city %>" required>
+ 
+           <label for="state">State <span class="required">*</span></label>
+           <select id="state" name="state" required>
+               <option value="" disabled>Select your state</option>
+               <% ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'].forEach(state => { %>
+                   <option value="<%= state %>" <%= event.state === state ? 'selected' : '' %>><%= state %></option>
+               <% }); %>
+           </select>
+ 
+           <label for="postal-code">Postal Code <span class="required">*</span></label>
+           <input type="text" id="postal-code" name="postalCode" value="<%= event.postal_code %>" required>
+ 
+           <!-- Event Details -->
+           <label for="event-type">Event Type <span class="required">*</span></label>
+           <select id="event-type" name="eventType" required>
+               <option value="Sewing" <%= event.event_type === 'Sewing' ? 'selected' : '' %>>Sewing</option>
+               <option value="Non-sewing" <%= event.event_type === 'Non-sewing' ? 'selected' : '' %>>Non-Sewing</option>
+               <option value="Both" <%= event.event_type === 'Both' ? 'selected' : '' %>>Both</option>
+           </select>
+ 
+           <label for="group-size">Group Size <span class="required">*</span></label>
+           <input type="number" id="group-size" name="groupSize" value="<%= event.group_size %>" required>
+ 
+           <!-- Planned Details -->
+           <label for="planned-date">Planned Date <span class="required">*</span></label>
+           <input type="date" id="planned-date" name="plannedDate" value="<%= event.planned_date.toISOString().split('T')[0] %>" required>
+ 
+           <label for="planned-time">Planned Time <span class="required">*</span></label>
+           <input type="time" id="planned-time" name="plannedTime" value="<%= event.planned_time %>" required>
+ 
+           <label for="planned-duration">Planned Duration (in hours) <span class="required">*</span></label>
+           <input type="number" id="planned-duration" name="plannedDuration" value="<%= event.planned_duration %>" min="1" step="0.5" required>
+ 
+           <!-- Buttons -->
+           <div class="button-container">
+               <button type="button" class="cancel-button" onclick="window.history.back()">Cancel</button>
+               <button type="submit" class="save-button">Save Changes</button>
+           </div>
+       </form>
+   </div>
+ 
+   <script>
+       function formatPhoneNumber(input) {
+           let value = input.value.replace(/\D/g, '');
+           if (value.length > 3 && value.length <= 6) {
+               input.value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+           } else if (value.length > 6) {
+               input.value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+           } else {
+               input.value = value;
+           }
+       }
+   </script>
+</body>
+</html>

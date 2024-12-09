@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule an Event</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 20px;
+            font-size: 1.2em;
+            border-bottom: 1px solid #070606;
+            padding-bottom: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .required {
+            color: red;
+        }
+        input, select, button {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        button {
+            background-color: #000;
+            color: white;
+            border: none;
+            padding: 10px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            align-self: center;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Schedule an Event</h1>
+        <form action="/addevents" method="POST" novalidate>  <!-- I changed the route to addevents -->
+            
+            <!-- Contact Info -->
+            <h2>Contact Information</h2>
+            <label for="organization">Organization: <span class="required">*</span></label>
+            <input type="text" id="organization" name="organization" placeholder="Organization Name" required>
+            <!-- Event Details -->
+            <label for="date">Planned Date <span class="required">*</span></label>
+            <input type="date" id="planneddate" name="planneddate" required>
+
+            <label for="startTime">What time do you want the event to start? <span class="required">*</span></label>
+            <input type="time" id="startTime" name="startTime" required>
+
+            <label for="duration-slider">How long would you like it to go? (hours) <span class="required">*</span></label>
+            <input 
+                type="range" 
+                id="duration-slider" 
+                name="duration" 
+                min="1" 
+                max="10" 
+                step="0.5" 
+                value="1" 
+                oninput="document.getElementById('duration-display').textContent = this.value" 
+                required
+            >
+            <div>
+                Selected Duration: <span id="duration-display">1</span> hours
+            </div>
+
+
+
+            <!-- Submit -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

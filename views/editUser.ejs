@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #2e9a8f;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .required {
+            color: red;
+        }
+        input, button {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #000;
+            color: white;
+            border: none;
+            padding: 10px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            align-self: center;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        .radio-group {
+            margin-top: 10px;
+        }
+        .radio-group input {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit User</h1>
+        <p>Use this form to add a new user to the system. Please fill out all required fields.</p>
+        <form action="/editUser/<%= staff.staff_id %>" method="POST">
+            <!-- Username -->
+            <label for="USERNAME">Username <span class="required">*</span></label>
+            <input type="text" id="USERNAME" name="USERNAME" placeholder="Enter username" value="<%= staff.username %>" required>
+
+            <!-- Password -->
+            <label for="PASSWORD">Password <span class="required">*</span></label>
+            <input type="text" id="PASSWORD" name="PASSWORD" placeholder="Enter password" value="<%= staff.username %>" required>
+
+            <!-- Employee Email -->
+            <label for="EMP_EMAIL">Employee Email <span class="required">*</span></label>
+            <input type="email" id="EMP_EMAIL" name="EMP_EMAIL" placeholder="example@example.com" value="<%= staff.emp_email %>" required>
+
+            <!-- First Name -->
+            <label for="EMP_FIRST">First Name <span class="required">*</span></label>
+            <input type="text" id="EMP_FIRST" name="EMP_FIRST" placeholder="Enter first name" value="<%= staff.emp_first %>" required>
+
+            <!-- Last Name -->
+            <label for="EMP_LAST">Last Name <span class="required">*</span></label>
+            <input type="text" id="EMP_LAST" name="EMP_LAST" placeholder="Enter last name" value="<%= staff.emp_last %>"required>
+
+            <!-- Admin Privileges -->
+            <div class="radio-group">
+                <label for="admin_yes">Admin Privileges: <span class="required">*</span></label>
+                <input type="radio" id="admin_yes" name="ADMIN_PRIV" value="Y" <%= staff.admin_priv === 'Y' ? 'checked' : '' %>>
+                <label for="admin_yes">Yes</label>
+                <input type="radio" id="admin_no" name="ADMIN_PRIV" value="N" <%= staff.admin_priv === 'N' ? 'checked' : '' %>>
+                <label for="admin_no">No</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Save User</button>
+        </form>
+    </div>
+</body>
+</html>

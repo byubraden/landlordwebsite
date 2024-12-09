@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turtle Shelter Project </title>
+ 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+ 
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+ 
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            /* Aligns content to the right */
+            align-items: center;
+            /* Vertically centers content */
+            background-color: #333333;
+            padding: 0rem 2rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+ 
+        }
+ 
+        .header .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #35b4a8;
+            /* Logo text color */
+            margin-right: 1rem;
+            /* Space between title and logo */
+        }
+ 
+        .header img {
+            width: 60px;
+            /* Logo size */
+            height: auto;
+ 
+        }
+ 
+        body {
+            line-height: 1.6;
+            background-color: #1f1f1f;
+            color: #f5f5f5;
+        }
+ 
+        /* Navigation Bar */
+
+        nav {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap to the next line */
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333333;
+            padding: 1rem 2rem;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Logo */
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000000;
+            color: #35b4a8;
+            word-break: break-word; /* Allow title to break into multiple lines if necessary */
+            max-width: 100%; /* Prevent the logo from expanding too wide */
+            text-align: center; /* Center align the text if stacked */
+        }
+
+        /* Navigation Links */
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap; /* Allow links to wrap to the next line */
+            justify-content: center; /* Center-align links when wrapped */
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Individual Navigation Items */
+        nav ul li {
+            display: inline;
+        }
+
+        /* Links */
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        /* Hover Effects */
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Button Styling */
+        .nav-button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Media Query for Small Screens */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column; /* Stack logo and links */
+                text-align: center; /* Center-align content */
+            }
+
+            nav ul {
+                flex-direction: column; /* Stack navigation links */
+                gap: 0.5rem; /* Reduce gap between links */
+            }
+
+            nav ul li a {
+                padding: 0.5rem 1rem; /* Adjust padding for smaller screens */
+            }
+        }
+
+    /*end of navbar css*/
+ 
+        .actionbuttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+ 
+        .action-button {
+            text-decoration: none;
+            background-color: #35b4a8;
+            /* Custom color */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+ 
+        .action-button:hover {
+            background-color: #2d9c8f;
+            /* Darker shade on hover */
+        }
+ 
+        /* Slideshow container */
+        .slideshow-container {
+            position: relative;
+            max-width: 50%; /* Full-width container */
+            margin: auto;
+            overflow: hidden; /* Ensure slides don't overflow */
+        }
+ 
+        /* Hide the images by default */
+        .mySlides img {
+            width: 100%;
+            height: 400px; /* Adjust height for consistent sizing */
+            object-fit: cover; /* Ensure images are cropped proportionally */
+        }
+        
+        /* Next & previous buttons */
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+ 
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+ 
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+ 
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+ 
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+ 
+        /* The dots/bullets/indicators */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+        
+        .active,
+        .dot:hover {
+            background-color: #717171;
+        }
+ 
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+ 
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+ 
+            to {
+                opacity: 1
+            }
+        }
+ 
+        .container {
+            background-image: url('house_image.jpg');
+            /* Replace with your actual image path */
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            /* Adjust height as needed */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+ 
+        /* Stats Section */
+        .stats-section {
+            /* width: 80%; */
+            margin: 2rem auto;
+            /* Center section */
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+            /* border-radius: 8px; */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+ 
+        .stats-heading {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #35b4a8;
+        }
+ 
+        .stat-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+ 
+        .stat-item {
+            text-align: center;
+            width: 30%;
+        }
+ 
+        .stat-text {
+            font-size: 4rem;
+            color: #f5f5f5;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+ 
+        .stat-item p {
+            font-size: 1.6rem;
+            color: #dcdcdc;
+        }
+ 
+        /* Logout Modal Styling */
+        .logout-modal {
+            position: fixed;
+            /* Sticks modal to viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* Full width of screen */
+            height: 100%;
+            /* Full height of screen */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent background */
+            display: flex;
+            /* Flexbox for alignment */
+            align-items: center;
+            /* Vertically center */
+            justify-content: center;
+            /* Horizontally center */
+            z-index: 1000;
+            /* Make sure modal is on top */
+        }
+ 
+        .logout-modal-content {
+            background-color: #fff;
+            /* White modal background */
+            padding: 30px;
+            /* Add spacing */
+            border-radius: 10px;
+            /* Rounded corners */
+            text-align: center;
+            /* Center text */
+            width: 400px;
+            /* Fixed width */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            /* Shadow for depth */
+            position: relative;
+            /* Allows for the close button positioning */
+            animation: fadeIn 0.3s ease-in-out;
+            /* Optional fade-in animation */
+        }
+ 
+        .logout-modal-content h2 {
+            color: #003366;
+            /* Blue tone matching the site design */
+            font-weight: bold;
+        }
+ 
+        .logout-close-button {
+            position: absolute;
+            /* Place close button inside modal */
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+ 
+        .logout-close-button:hover {
+            color: red;
+        }
+ 
+        .logout-modal button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+ 
+        .logout-yes-button {
+            background-color: #c0392b;
+            /* Subdued red */
+            color: white;
+        }
+ 
+        .logout-yes-button:hover {
+            background-color: #a93226;
+            /* Slightly darker red */
+        }
+ 
+        .logout-cancel-button {
+            background-color: #6c757d;
+            /* Gray */
+            color: white;
+        }
+ 
+        .logout-cancel-button:hover {
+            background-color: #5a6268;
+            /* Darker gray */
+        }
+ 
+        /* Optional fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+ 
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+ 
+        /* Hero Section */
+        .hero {
+            position: relative; /* Create a positioning context for the pseudo-element */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../IMG/groupwearingvests.jpg'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3; /* Adjust opacity of the background */
+            z-index: 0; /* Place it behind the content */
+        }
+
+        .hero-content {
+            position: relative; /* Ensures content stays above the background */
+            color: white;
+            padding: 45px;
+            background-color: rgba(0, 0, 0, 0.45); /* Dark background for readability */
+            border-radius: 10px;
+            z-index: 1; /* Ensure content is above the background */
+        }
+ 
+        .hero h1 {
+            font-family:  "STIX Text", serif ;
+            font-size: 3em;
+            
+        }
+
+        .subtle-line {
+            border: none; /* Remove default border */
+            border-top: 3px solid #ccc; /* Create a subtle line */
+            margin: 10px 0; /* Add spacing around the line */
+            width: 60%; /* Optional: Control the line's width */
+            margin-left: auto; /* Center the line */
+            margin-right: auto; /* Center the line */
+        }
+
+ 
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+ 
+        /* About Us Section */
+        .about-us {
+            padding: 4rem 2rem;
+            background-color: #333333;
+            text-align: center;
+        }
+ 
+        .about-us h2 {
+            font-size: 3rem;
+            font-family:  "STIX Text", serif ;
+            color: #35b4a8;
+            margin-bottom: 1rem;
+        }
+ 
+        .about-us p {
+            font-size: 1.5rem;
+            color: #dcdcdc;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+ 
+        .about-us .mission {
+            background-color: #2d9c8f;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 70%;
+            align-items: center;
+            margin: 0 auto;
+            ;
+        }
+ 
+        .about-us .mission h3 {
+            font-size: 2.4rem;
+            font-family:  "STIX Text", serif ;
+            margin-bottom: 1rem;
+            
+        }
+ 
+        .about-us .mission p {
+            font-size: 1.5rem;
+            
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 1rem;
+            background-color: #333333;
+            color: white;
+        }
+
+        .social-footer {
+            margin-bottom: 0.5rem; /* Space between the two footers */
+        }
+
+        .social-footer .social-icon {
+            width: 40px; /* Size of the Facebook icon */
+            height: 40px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .social-footer .social-icon:hover {
+            transform: scale(1.1); /* Slight zoom effect on hover */
+        }
+
+        .main-footer {
+            font-size: 1.1rem; /* Slightly smaller text for the main footer */
+            background-color: #222222; /* Slightly darker background */
+        }
+
+    </style>
+</head>
+ 
+<body>
+    <nav>
+        <header class="header">
+            <div class="logo">Turtle Shelter Project </div>
+            <img src="/IMG/logo-circle.png" alt="Logo" width="70">
+        </header>
+        <ul>
+            <li>
+                <form action="/" method="GET">
+                    <button type="submit" class="nav-button">Home</button>
+                </form>
+            </li>
+            <li>
+                <form action="/about" method="GET">
+                    <button type="submit" class="nav-button">About Us</button>
+                </form>
+            </li>
+            <li>
+                <form action="/volunteer-signup" method="GET">
+                    <button type="submit" class="nav-button">Sign-Up to Volunteer</button>
+                </form>
+            </li>
+            <li>
+                <form action="/request-event" method="GET">
+                    <button type="submit" class="nav-button">Request an Event</button>
+                </form>
+            </li>
+            <% if (user) { %>
+                <li>
+                    <form action="/adminhomepage" method="GET">
+                        <button type="submit" class="nav-button">Admin</button>
+                    </form>
+                </li>
+                <li>
+                    <button onclick="openLogoutModal()" class="nav-button">Logout</button>
+                </li>
+                <% } else { %>
+                    <li>
+                        <form action="/loginpage" method="GET">
+                            <button type="submit" class="nav-button">Login</button>
+                        </form>
+                    </li>
+                    <% } %>
+        </ul>
+    </nav>
+ 
+    <section class="hero" >
+        <div class="hero-content">
+            <h1>Every Life Has Value</h1>
+            <hr class="subtle-line">
+            <h1>Every Person Can Serve</h1>
+            <br>
+            <div class="actionbuttons">
+                <form action="/volunteer-signup" method="GET">
+                    <button type="submit" class="action-button">Sign-Up to Volunteer</button>
+                </form>
+                <form action="/request-event" method="GET">
+                    <button type="submit" class="action-button">Request an Event</button>
+                </form>
+                <form action="/donate" method="GET">
+                    <button type="submit" class="action-button">Donate</button>
+                </form>
+            </div>
+        </div>
+    </section>
+ 
+    <section class="stats-section">
+        <h2 class="stats-heading">OUR IMPACT</h2>
+        <div class="stat-container">
+            <div class="stat-item">
+                <h1 class="stat-text"><%= totalVests %>+</h1>
+                <p>Vests Made</p>
+            </div>
+            <div class="stat-item">
+                <h1 class="stat-text"><%= totalHours %>+</h1>
+                <p>Volunteer Hours</p>
+            </div>
+            <div class="stat-item">
+                <h1 class="stat-text"><%= totalParticipants %>+</h1>
+                <p>Volunteers</p>
+            </div>
+        </div>
+        <br>
+ 
+    </section>
+ 
+ 
+    <!-- Slideshow container -->
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <div class="numbertext">1 / 3</div>
+            <img src="../IMG/happyman.jpg" style="width:100%; height:400px; object-fit: cover;">
+        </div>
+    
+        <div class="mySlides fade">
+            <div class="numbertext">2 / 3</div>
+            <img src="../IMG/jenwearing.jpg" style="width:100%; height:400px; object-fit: cover;">
+        </div>
+    
+        <div class="mySlides fade">
+            <div class="numbertext">3 / 3</div>
+            <img src="../IMG/volunteersworking.jpg" style="width:100%; height:400px; object-fit: cover;">
+        </div>
+    </div>
+    
+    <!-- Dots for Navigation -->
+    <div style="text-align:center">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+    
+ 
+    </section><br>
+ 
+    <section class="about-us">
+        <h2>What We Do</h2>
+        <p>We make insulated foam vests that are donated to the homeless in need. These vests can keep the wearer warm
+            even
+            when they are wet.</p>
+ 
+        <div class="mission">
+            <h3>Our Mission</h3>
+            <p>Eliminate Deaths by freezing by supplying people with insulated foam vests. </p>
+        </div>
+ 
+    </section>
+ 
+ 
+    <script>
+     let slideIndex = 0;
+
+    function showSlides() {
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+        
+        // Hide all slides
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        
+        // Remove active class from dots
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+
+        // Increment the slideIndex, loop back to the start if necessary
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1; }
+
+        // Display the current slide and highlight the corresponding dot
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+
+        // Change slide every 5 seconds (5000 milliseconds)
+        setTimeout(showSlides, 5000);
+    }
+
+    // Start the slideshow on page load
+    document.addEventListener("DOMContentLoaded", showSlides);
+
+    </script>
+    </div>
+    <!-- Modal Structure -->
+    <div id="logoutModal" class="logout-modal" style="display: none;">
+        <div class="logout-modal-content">
+            <span class="logout-close-button" onclick="closeLogoutModal()">&times;</span>
+            <h2>Are you sure you want to logout?</h2>
+            <form action="/logout" method="POST">
+                <button type="submit" class="logout-yes-button">Yes, Logout</button>
+                <button type="button" class="logout-cancel-button" onclick="closeLogoutModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+     <!-- FOOTERS -->
+    <footer class="social-footer">
+        <a href="https://www.facebook.com/turtleshelterproject/" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" class="social-icon">
+        </a>
+    </footer>
+    
+    <footer class="main-footer">
+        © 2024 Turtle Shelter Project, PO Box 382, Kaysville, UT 84037, 801-872-3190, turtleshelterproject@gmail.com
+    </footer>
+    <!-- FOOTERS -->
+  
+    <script>
+        function openLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                modal.style.display = 'flex'; // Ensure flex to align content
+            } else {
+                console.error("Modal element not found.");
+            }
+        }
+ 
+        function closeLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                modal.style.display = 'none'; // Hide modal
+            } else {
+                console.error("Modal element not found.");
+            }
+        }
+    </script>
+</body>
+ 
+</html>
+ 
