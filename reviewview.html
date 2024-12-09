@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landlord Review Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F5F1E3;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Style for the review section */
+        .reviews-container {
+            width: 66.6%;
+            background-color: #FFFFFF;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        .review {
+            background-color: #DDDBCB;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .review p {
+            margin: 10px 0;
+        }
+
+        .review-text {
+            font-size: 1.5rem;
+            color: #050505;
+            margin-bottom: 5px;
+        }
+
+        .review-date {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .rating-summary {
+            margin-top: 15px;
+            background-color: #E4E4E4;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .category-summary {
+            margin-bottom: 8px;
+        }
+
+        .average-rating {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Style for the rating section */
+        .rating-container {
+            width: 33.3%;
+            background-color: #DDDBCB;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .landlord-name {
+            font-size: 2rem;
+            color: #050505;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .rating-category {
+            margin-bottom: 25px;
+        }
+
+        .category-name {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #050505;
+        }
+
+        .progress-bar {
+            height: 25px;
+            background-color: #F5F1E3;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #1B9AAA;
+            width: 0%;
+            border-radius: 12px;
+        }
+
+        .total-rating {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #050505;
+            margin-top: 30px;
+        }
+
+        .progress-bar-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reviews-container">
+        <div class="review">
+            <div class="review-text"><strong>John Doe:</strong> Great landlord, always responsive and quick to fix any issues!</div>
+            <div class="review-date">Reviewed on: March 1, 2024</div>
+            <div class="rating-summary">
+                <div class="summary-title">Category Ratings:</div>
+                <div class="category-summary">Responsiveness: 4.5/5</div>
+                <div class="category-summary">Maintenance: 4/5</div>
+                <div class="category-summary">Communication: 5/5</div>
+                <div class="category-summary">Transparency: 5/5</div>
+                <div class="category-summary">Flexibility: 4.5/5</div>
+                <div class="average-rating">Average Rating: 4.6/5</div>
+            </div>
+        </div>
+
+        <div class="review">
+            <div class="review-text"><strong>Jane Smith:</strong> The maintenance took a bit longer than expected, but overall good experience.</div>
+            <div class="review-date">Reviewed on: February 18, 2024</div>
+            <div class="rating-summary">
+                <div class="summary-title">Category Ratings:</div>
+                <div class="category-summary">Responsiveness: 4/5</div>
+                <div class="category-summary">Maintenance: 3/5</div>
+                <div class="category-summary">Communication: 4/5</div>
+                <div class="category-summary">Transparency: 3.5/5</div>
+                <div class="category-summary">Flexibility: 4/5</div>
+                <div class="average-rating">Average Rating: 3.9/5</div>
+            </div>
+        </div>
+
+        <div class="review">
+            <div class="review-text"><strong>Chris Johnson:</strong> Very transparent and honest throughout the lease. Would recommend.</div>
+            <div class="review-date">Reviewed on: January 10, 2024</div>
+            <div class="rating-summary">
+                <div class="summary-title">Category Ratings:</div>
+                <div class="category-summary">Responsiveness: 5/5</div>
+                <div class="category-summary">Maintenance: 5/5</div>
+                <div class="category-summary">Communication: 5/5</div>
+                <div class="category-summary">Transparency: 5/5</div>
+                <div class="category-summary">Flexibility: 5/5</div>
+                <div class="average-rating">Average Rating: 5/5</div>
+            </div>
+        </div>
+
+        <div class="review">
+            <div class="review-text"><strong>Patricia Williams:</strong> Fair and flexible when it came to moving out dates. Could improve communication.</div>
+            <div class="review-date">Reviewed on: December 15, 2023</div>
+            <div class="rating-summary">
+                <div class="summary-title">Category Ratings:</div>
+                <div class="category-summary">Responsiveness: 4/5</div>
+                <div class="category-summary">Maintenance: 4/5</div>
+                <div class="category-summary">Communication: 3/5</div>
+                <div class="category-summary">Transparency: 4/5</div>
+                <div class="category-summary">Flexibility: 4/5</div>
+                <div class="average-rating">Average Rating: 3.8/5</div>
+            </div>
+        </div>
+
+        <div class="review">
+            <div class="review-text"><strong>Michael Brown:</strong> Responsive and helpful, though repairs could have been quicker.</div>
+            <div class="review-date">Reviewed on: November 20, 2023</div>
+            <div class="rating-summary">
+                <div class="summary-title">Category Ratings:</div>
+                <div class="category-summary">Responsiveness: 4/5</div>
+                <div class="category-summary">Maintenance: 3/5</div>
+                <div class="category-summary">Communication: 4/5</div>
+                <div class="category-summary">Transparency: 3.5/5</div>
+                <div class="category-summary">Flexibility: 4/5</div>
+                <div class="average-rating">Average Rating: 3.9/5</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rating-container">
+        <div class="landlord-name">Landlord: Mike's Rentals</div>
+        
+        <div class="rating-category">
+            <div class="category-name">Responsiveness</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 90%;"></div>
+            </div>
+        </div>
+
+        <div class="rating-category">
+            <div class="category-name">Maintenance and Repairs</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 75%;"></div>
+            </div>
+        </div>
+
+        <div class="rating-category">
+            <div class="category-name">Communication</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 85%;"></div>
+            </div>
+        </div>
+
+        <div class="rating-category">
+            <div class="category-name">Transparency and Honesty</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 95%;"></div>
+            </div>
+        </div>
+
+        <div class="rating-category">
+            <div class="category-name">Fairness and Flexibility</div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 80%;"></div>
+            </div>
+        </div>
+
+        <div class="total-rating">Overall Rating: 4.5/5</div>
+    </div>
+</body>
+</html>

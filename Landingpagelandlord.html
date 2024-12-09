@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate My Landlord</title>
+    <style>
+        /* Colors */
+        :root {
+            --dark-background: #050505;
+            --primary-color: #1B9AAA;
+            --secondary-color: #DDDBCB;
+            --light-background: #F5F1E3;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--light-background);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--dark-background);
+        }
+
+        /* Top bar */
+        .top-bar {
+            width: 100%;
+            background-color: var(--dark-background);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            height: 50px;
+            width: 50px;
+            background-color: var(--primary-color);
+        }
+
+        .account-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .account-tab {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: bold;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .account-tab:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Title */
+        .site-title {
+            font-size: 5em;  /* Increased size */
+            font-family: "Georgia", serif;
+            font-weight: bold;
+            margin: 40px 0 20px;
+            text-align: center;
+            background: linear-gradient(45deg, var(--primary-color), #050505);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Search bar */
+        .search-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 30px; /* Added margin-bottom for space under the search bar */
+        }
+
+        form {
+            width: 50%;
+            display: flex;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5em;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .search-bar:focus {
+            border-color: var(--primary-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            fill: #050505;
+            cursor: pointer;
+        }
+
+        /* Landlord card array */
+        .landlord-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px 10px;
+            margin-top: 20px;
+            justify-content: center;
+            width: 80%;
+        }
+
+        .card {
+            width: 250px;
+            background-color: var(--white);
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-align: center;
+            color: var(--dark-background);
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card .name {
+            padding: 10px;
+            font-weight: bold;
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="logo"></div>
+        <div class="account-buttons">
+            <a href="/signup" class="account-tab">Sign Up</a>
+            <a href="/login" class="account-tab">Login</a>
+        </div>
+    </div>
+
+    <!-- Title -->
+    <div class="site-title">Rate My Landlord</div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <form action="/search" method="GET">
+            <input type="text" name="query" class="search-bar" placeholder="Search for a landlord or apartment...">
+            <button type="submit" class="search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M10 2a8 8 0 106.32 13.906l4.387 4.388a1 1 0 001.414-1.415l-4.388-4.387A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <!-- Landlord Card Array -->
+    <div class="landlord-cards">
+        <!-- Example Landlord Cards -->
+        <div class="card" onclick="window.location.href='/landlord/1'">
+            <img src="https://via.placeholder.com/250x200" alt="Landlord 1">
+            <div class="name">Landlord 1</div>
+        </div>
+        <div class="card" onclick="window.location.href='/landlord/2'">
+            <img src="https://via.placeholder.com/250x200" alt="Landlord 2">
+            <div class="name">Landlord 2</div>
+        </div>
+        <div class="card" onclick="window.location.href='/landlord/3'">
+            <img src="https://via.placeholder.com/250x200" alt="Landlord 3">
+            <div class="name">Landlord 3</div>
+        </div>
+        <div class="card" onclick="window.location.href='/landlord/4'">
+            <img src="https://via.placeholder.com/250x200" alt="Landlord 4">
+            <div class="name">Landlord 4</div>
+        </div>
+        <div class="card" onclick="window.location.href='/landlord/5'">
+            <img src="https://via.placeholder.com/250x200" alt="Landlord 5">
+            <div class="name">Landlord 5</div>
+        </div>
+        <div class="card" onclick="window.location.href='/landlord/6'">
+            <img src="https://via.placeholder.com/250x200" alt="Landlord 6">
+            <div class="name">Landlord 6</div>
+        </div>
+        <div class="card" onclick="window.location.href='/landlord/7'">
+            <img src="https://via.placeholder.com/250x200" alt="Landlord 7">
+            <div class="name">Landlord 7</div>
+        </div>
+        <div class="card" onclick="window.location.href='/landlord/8'">
+            <img src="https://via.placeholder.com/250x200" alt="Landlord 8">
+            <div class="name">Landlord 8</div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Review</title>
+    <style>
+        /* Colors */
+        :root {
+            --dark-background: #050505;
+            --primary-color: #1B9AAA;
+            --secondary-color: #DDDBCB;
+            --light-background: #F5F1E3;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--light-background);
+            color: var(--dark-background);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            width: 80%;
+            max-width: 800px;
+            background-color: var(--white);
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-title {
+            font-size: 2em;
+            color: var(--primary-color);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .slider-container {
+            margin-top: 10px;
+        }
+
+        .slider-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        /* Slider styling */
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .slider-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+
+        /* Custom dropdown styling */
+        .searchable-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        .searchable-dropdown input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .dropdown-options {
+            position: absolute;
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: var(--white);
+            border: 1px solid var(--secondary-color);
+            border-top: none;
+            z-index: 10;
+        }
+
+        .dropdown-option {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .dropdown-option:hover {
+            background-color: var(--secondary-color);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+            resize: vertical;
+            height: 80px;
+        }
+
+        .tags-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: var(--secondary-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .tag.selected {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--dark-background);
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="form-title">Post a Review</div>
+
+    <form action="/submit-review" method="POST">
+        <!-- Searchable dropdown for landlords -->
+        <div class="form-group searchable-dropdown">
+            <label for="landlord" class="form-label">Select a Landlord:</label>
+            <input type="text" id="landlord-search" placeholder="Search landlords..." oninput="filterOptions()">
+            <div class="dropdown-options" id="dropdown-options">
+                <div class="dropdown-option" onclick="selectOption('Landlord 1')">Landlord 1</div>
+                <div class="dropdown-option" onclick="selectOption('Landlord 2')">Landlord 2</div>
+                <div class="dropdown-option" onclick="selectOption('Landlord 3')">Landlord 3</div>
+                <div class="dropdown-option" onclick="selectOption('Landlord 4')">Landlord 4</div>
+                <div class="dropdown-option" onclick="selectOption('Landlord 5')">Landlord 5</div>
+            </div>
+            <input type="hidden" id="selected-landlord" name="landlord">
+        </div>
+
+        <!-- Sliders for each rating category -->
+        <div class="form-group">
+            <label class="form-label">Responsiveness</label>
+            <input type="range" name="responsiveness" min="1" max="5" step="1">
+            <div class="slider-values">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Maintenance and Repairs</label>
+            <input type="range" name="maintenance_repairs" min="1" max="5" step="1">
+            <div class="slider-values">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Communication</label>
+            <input type="range" name="communication" min="1" max="5" step="1">
+            <div class="slider-values">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Transparency and Honesty</label>
+            <input type="range" name="transparency_honesty" min="1" max="5" step="1">
+            <div class="slider-values">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Fairness and Flexibility</label>
+            <input type="range" name="fairness_flexibility" min="1" max="5" step="1">
+            <div class="slider-values">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+
+        <!-- Comment section -->
+        <div class="form-group">
+            <label for="comments" class="form-label">Additional Comments</label>
+            <textarea id="comments" name="comments" placeholder="Share your experience..."></textarea>
+        </div>
+
+        <!-- Tag selection -->
+        <div class="form-group">
+            <label class="form-label">Select Tags:</label>
+            <div class="tags-container">
+                <span class="tag" onclick="toggleTag(this)">Responsive</span>
+                <span class="tag" onclick="toggleTag(this)">Unresponsive</span>
+                <span class="tag" onclick="toggleTag(this)">Helpful</span>
+                <span class="tag" onclick="toggleTag(this)">Unreliable</span>
+                <span class="tag" onclick="toggleTag(this)">Friendly</span>
+                <span class="tag" onclick="toggleTag(this)">Rude</span>
+                <span class="tag" onclick="toggleTag(this)">Quick Repairs</span>
+                <span class="tag" onclick="toggleTag(this)">Slow Repairs</span>
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="submit-btn">Submit Review</button>
+    </form>
+</div>
+
+<script>
+    function filterOptions() {
+        const input = document.getElementById("landlord-search");
+        const filter = input.value.toLowerCase();
+        const options = document.getElementById("dropdown-options").getElementsByClassName("dropdown-option");
+
+        for (let option of options) {
+            if (option.textContent.toLowerCase().includes(filter)) {
+                option.style.display = "block";
+            } else {
+                option.style.display = "none";
+            }
+        }
+    }
+
+    function selectOption(option) {
+        document.getElementById("landlord-search").value = option;
+        document.getElementById("selected-landlord").value = option;
+        document.getElementById("dropdown-options").style.display = "none";
+    }
+
+    function toggleTag(tagElement) {
+        tagElement.classList.toggle('selected');
+    }
+</script>
+
+</body>
+</html>
+
