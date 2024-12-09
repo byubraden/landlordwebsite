@@ -117,26 +117,6 @@
             height: 80px;
         }
 
-        .tags-container {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background-color: var(--secondary-color);
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: inline-block;
-            margin: 5px 0;
-        }
-
-        .tag.selected {
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-
         .submit-btn {
             background-color: var(--primary-color);
             color: var(--white);
@@ -162,7 +142,7 @@
         <!-- Searchable dropdown for landlords -->
         <div class="form-group searchable-dropdown">
             <label for="landlord" class="form-label">Select a Landlord:</label>
-            <input type="text" id="landlord-search" placeholder="Search landlords..." oninput="filterOptions()">
+            <input type="text" id="landlord-search" placeholder="Search landlords..." oninput="filterOptions()" onclick="showDropdown()">
             <div class="dropdown-options" id="dropdown-options">
                 <div class="dropdown-option" onclick="selectOption('Landlord 1')">Landlord 1</div>
                 <div class="dropdown-option" onclick="selectOption('Landlord 2')">Landlord 2</div>
@@ -236,21 +216,6 @@
             <textarea id="comments" name="comments" placeholder="Share your experience..."></textarea>
         </div>
 
-        <!-- Tag selection -->
-        <div class="form-group">
-            <label class="form-label">Select Tags:</label>
-            <div class="tags-container">
-                <span class="tag" onclick="toggleTag(this)">Responsive</span>
-                <span class="tag" onclick="toggleTag(this)">Unresponsive</span>
-                <span class="tag" onclick="toggleTag(this)">Helpful</span>
-                <span class="tag" onclick="toggleTag(this)">Unreliable</span>
-                <span class="tag" onclick="toggleTag(this)">Friendly</span>
-                <span class="tag" onclick="toggleTag(this)">Rude</span>
-                <span class="tag" onclick="toggleTag(this)">Quick Repairs</span>
-                <span class="tag" onclick="toggleTag(this)">Slow Repairs</span>
-            </div>
-        </div>
-
         <!-- Submit button -->
         <button type="submit" class="submit-btn">Submit Review</button>
     </form>
@@ -274,14 +239,22 @@
     function selectOption(option) {
         document.getElementById("landlord-search").value = option;
         document.getElementById("selected-landlord").value = option;
-        document.getElementById("dropdown-options").style.display = "none";
+        showDropdown(); // Keep dropdown accessible
     }
 
-    function toggleTag(tagElement) {
-        tagElement.classList.toggle('selected');
+    function showDropdown() {
+        document.getElementById("dropdown-options").style.display = "block";
     }
+
+    // Close dropdown on outside click
+    document.addEventListener("click", function(event) {
+        const dropdown = document.getElementById("dropdown-options");
+        const searchInput = document.getElementById("landlord-search");
+        if (!dropdown.contains(event.target) && event.target !== searchInput) {
+            dropdown.style.display = "none";
+        }
+    });
 </script>
 
 </body>
 </html>
-
